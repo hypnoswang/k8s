@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-test-pod2
+spec:
+  containers:
+    - name: cm-test-container2
+      image: docker.io/library/ubuntu:22.04
+      command: ["/bin/sh", "-c", "while [ true ]; do sleep 3; done"]
+      volumeMounts:
+        - name: cmvolume
+          mountPath: /config
+  volumes:
+    - name: cmvolume
+      configMap:
+        name: cm-test
+  restartPolicy: Never
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule

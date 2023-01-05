@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-test-pod
+spec:
+  containers:
+    - name: cm-test-container
+      image: docker.io/library/ubuntu:22.04
+      command: ["/bin/sh", "-c", "env && echo \"Hello, Hypnos\""]
+      envFrom: 
+        - configMapRef: 
+            name: cm-test
+  restartPolicy: Never
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
