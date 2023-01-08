@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: live-exec-pod
+  labels:
+    course: k8s-3.6.1
+    date: 2023-01-05
+spec:
+  containers:
+    - name: live-exec-c
+      image: docker.io/library/nginx:1.22.1
+      livenessProbe:
+        exec:
+          command: ["ls", "/not-exist-docker-entrypoint.sh"]
+        initialDelaySeconds: 5
+        timeoutSeconds: 1
+  restartPolicy: Never
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
